@@ -31,7 +31,7 @@ import Step from './step';
 export default [
   {
     name: 'friends',
-    component: ({ close, next, position, currentStep, totalSteps }) => (
+    component: ({ close, next, currentStep, totalSteps }) => (
       <Step position="rightSide">
         <Text>LOREM IPSUM PLACEHOLDER</Text>
       </Step>
@@ -42,7 +42,7 @@ export default [
     // wait for layout after react-navigation transitions
     beforeDelay: 400,
     beforeStep: async () => store.dispatch(showBook('bookName')),
-    component: ({ close, next, position, currentStep, totalSteps }) => (
+    component: ({ close, next, currentStep, totalSteps }) => (
       <Step {...props} position="bottomLeft">
         <Text>This is a share button</Text>
       </Step>
@@ -123,3 +123,10 @@ The tour provider at the top of your app takes two props:
     ),
   }
 ```
+
+`component` receives the following:
+
+- `close`: function to stop the tour
+- `next`: function to trigger the next step
+- `currentStep`: Current step as an integer
+- `totalSteps`: Number of total steps
