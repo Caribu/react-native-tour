@@ -108,10 +108,10 @@ The tour provider at the top of your app takes two props:
    //unique name
     name: 'share',
 
-    //delay in ms before rendering the step to screen
+    //OPTIONAL: delay in ms before rendering the step to screen
     beforeDelay: 400,
 
-    // async function that is waited on before rendering the step
+    //OPTIONAL: async function that is waited on before rendering the step
     beforeStep: async () => {}
 
     //the component to render at the highlighted area where `Attach` is located
