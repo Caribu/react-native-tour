@@ -14,7 +14,7 @@ At the top level of your app, import the provider. You must be using React 16+
 
 ```js
 import steps from './steps';
-import Tour from 'react-native-tour';
+import { Tour } from 'react-native-tour';
 
 <Tour steps={steps}>
   <Navigation />
@@ -62,7 +62,7 @@ How your step component looks is up to you. This is the actual component rendere
 After defining steps, anywhere in your app you can highlight and place the step by using `Attach`
 
 ```js
-import Attach from 'react-native-tour/attach';
+import { Attach } from 'react-native-tour';
 
 <Attach name="share">
   <Icon name="some random share icon component" />
@@ -74,7 +74,7 @@ Now when the step is active, it will render a circle and your step component.
 # Starting the tour
 
 ```js
-import { Consumer } from 'react-native-tour/context';
+import { Consumer } from 'react-native-tour';
 
 <Consumer>{({ start }) => <SomeButton onPress={start} />}</Consumer>;
 ```
