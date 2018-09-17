@@ -4,8 +4,9 @@ import { Consumer } from './context';
 
 export default class Attach extends React.Component {
   render() {
-    const { name, children } = this.props;
+    const { name, children, style } = this.props;
     if (!name) return children;
+    if (!style) style = () => ({});
 
     return (
       <Consumer>
@@ -29,6 +30,7 @@ export default class Attach extends React.Component {
                           top: pageY,
                           left: pageX,
                           borderRadius: circleSize,
+                          ...style({ height, width, pageX, pageY, x, y }),
                         },
                         overlay: children,
                       });
