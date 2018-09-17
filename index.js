@@ -34,6 +34,16 @@ export default class OnboardingProvider extends React.Component {
     const { style, overlay } = positions[activeStep.name] || {};
     // if the active step isnt on screen yet, we cant try to render anything
     if (!style) activeStep = {};
+
+    let next = async () => {
+      const nextStep = steps[step + 1];
+      if (nextStep && nextStep.beforeStep) await nextStep.beforeStep();
+
+      this.setState({
+        step: steps[step + 1] ? step + 1 : null,
+      });
+    };
+
     return (
       <Provider
         value={{
@@ -61,20 +71,14 @@ export default class OnboardingProvider extends React.Component {
             <View style={styles.overlay}>
               {activeStep.name ? (
                 <Fade>
-                  <View style={[styles.highlight, style]}>{overlay}</View>
+                  <View style={[styles.highlight, style]} onPress={next}>
+                    {overlay}
+                  </View>
                   <View style={{ top: style.top, left: style.left }}>
                     {React.createElement(activeStep.component, {
                       currentStep: step + 1,
                       totalSteps: steps.length,
-                      next: async () => {
-                        const nextStep = steps[step + 1];
-                        if (nextStep && nextStep.beforeStep)
-                          await nextStep.beforeStep();
-
-                        this.setState({
-                          step: steps[step + 1] ? step + 1 : null,
-                        });
-                      },
+                      next,
                       close: () => this.setState({ step: null }),
                     })}
                   </View>
