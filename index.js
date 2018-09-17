@@ -40,7 +40,13 @@ export default class OnboardingProvider extends React.Component {
           nextStep: steps[step + 1] || {},
           previousStep: steps[step - 1] || {},
           step: steps[step] ? steps[step] : {},
-          start: () => this.setState({ step: 0 }),
+          start: async () => {
+            const step = steps[0];
+
+            if (step && step.beforeStep) await step.beforeStep();
+
+            this.setState({ step: 0 });
+          },
           onLayout: (name, data) =>
             this.setState({ positions: { [name]: data } }),
           setActive: stepName =>
