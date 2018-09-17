@@ -1,6 +1,6 @@
 {
   "name": "react-native-tour",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Display tips around parts of your react native application for new users",
   "main": "index.js",
   "scripts": {
