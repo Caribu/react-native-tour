@@ -17,6 +17,7 @@ export default class FadeInView extends Component {
     Animated.timing(viewOpacity, {
       toValue: 1,
       duration,
+      useNativeDriver: true,
     }).start(() => {});
   }
 
