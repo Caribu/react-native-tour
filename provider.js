@@ -46,7 +46,7 @@ export default class OnboardingProvider extends React.Component {
         step: steps[step + 1] ? step + 1 : null,
       });
     };
-    console.log(activeStep, hideOverlay);
+
     return (
       <Provider
         value={{
