@@ -4,7 +4,7 @@ import { Consumer } from './context';
 
 export default class Attach extends React.Component {
   render() {
-    const { name, children, style } = this.props;
+    const { name, children, style, viewStyle } = this.props;
     if (!name) return children;
 
     return (
@@ -15,6 +15,7 @@ export default class Attach extends React.Component {
               ref={ref => {
                 this.marker = ref;
               }}
+              style={viewStyle}
               onLayout={() =>
                 setTimeout(
                   () =>
