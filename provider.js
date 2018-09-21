@@ -33,10 +33,11 @@ export default class OnboardingProvider extends React.Component {
     let activeStep = steps[step] || {};
     const { style, overlay } = positions[activeStep.name] || {};
     // if the active step isnt on screen yet, we cant try to render anything
-    if (!style) activeStep = {};
+    if (!style || step === null) activeStep = {};
 
     const next = async (data = {}) => {
       const { hideOverlay } = data;
+      if (step === null) return;
 
       const nextStep = steps[step + 1];
       if (nextStep && nextStep.beforeStep) await nextStep.beforeStep();
@@ -46,7 +47,6 @@ export default class OnboardingProvider extends React.Component {
         step: steps[step + 1] ? step + 1 : null,
       });
     };
-
     return (
       <Provider
         value={{
@@ -62,7 +62,12 @@ export default class OnboardingProvider extends React.Component {
             this.setState({ step: 0 });
           },
           onLayout: (name, data) =>
-            this.setState({ positions: { [name]: data }, hideOverlay: false }),
+            step === null
+              ? null
+              : this.setState({
+                  positions: { [name]: data },
+                  hideOverlay: false,
+                }),
           setActive: stepName =>
             this.setState({
               step: steps.findIndex(row => row.name === stepName),
