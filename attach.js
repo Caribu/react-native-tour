@@ -19,6 +19,7 @@ export default class Attach extends React.Component {
               onLayout={() =>
                 setTimeout(
                   () =>
+                    this.marker &&
                     this.marker.measure((x, y, width, height, pageX, pageY) => {
                       const circleSize = height > width ? height : width;
 
