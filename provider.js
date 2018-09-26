@@ -58,6 +58,7 @@ export default class OnboardingProvider extends React.Component {
             const step = steps[0];
 
             if (step && step.beforeStep) await step.beforeStep();
+            if (step || step === 0) return;
 
             this.setState({ step: 0 });
           },
