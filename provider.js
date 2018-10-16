@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Provider } from './context';
 import Fade from './fade';
+import { Provider } from './context';
+import { View, StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+// Android layout does not work with the Fade component
+const Wrapper = Platform.OS === 'ios' ? Fade : React.Fragment;
 
 export default class OnboardingProvider extends React.Component {
   constructor({ steps, initialStep }) {
@@ -47,6 +49,7 @@ export default class OnboardingProvider extends React.Component {
         step: steps[step + 1] ? step + 1 : null,
       });
     };
+
     return (
       <Provider
         value={{
@@ -80,7 +83,7 @@ export default class OnboardingProvider extends React.Component {
           {(step || step === 0) && !hideOverlay ? (
             <View style={styles.overlay}>
               {activeStep.name ? (
-                <Fade>
+                <Wrapper>
                   {overlay ? (
                     <View style={[styles.highlight, style]}>{overlay}</View>
                   ) : null}
@@ -89,8 +92,11 @@ export default class OnboardingProvider extends React.Component {
                       overlay
                         ? { top: style.top, left: style.left }
                         : {
-                            display: 'flex',
-                            zIndex: 10,
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
                             justifyContent: 'center',
                             alignItems: 'center',
                           }
@@ -103,7 +109,7 @@ export default class OnboardingProvider extends React.Component {
                       close: () => this.setState({ step: null }),
                     })}
                   </View>
-                </Fade>
+                </Wrapper>
               ) : null}
             </View>
           ) : null}
