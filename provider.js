@@ -31,6 +31,9 @@ export default class OnboardingProvider extends React.Component {
     this.state = { positions: {}, step: initialStep, steps };
   }
   render() {
+    let { highlightComponent } = this.props;
+    let OverlayWrapper = highlightComponent || View;
+
     const { step, steps, positions, hideOverlay } = this.state;
     let activeStep = steps[step] || {};
     const { style, overlay } = positions[activeStep.name] || {};
@@ -85,7 +88,9 @@ export default class OnboardingProvider extends React.Component {
               {activeStep.name ? (
                 <Wrapper>
                   {overlay ? (
-                    <View style={[styles.highlight, style]}>{overlay}</View>
+                    <OverlayWrapper style={[styles.highlight, style]}>
+                      {overlay}
+                    </OverlayWrapper>
                   ) : null}
                   <View
                     style={

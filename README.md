@@ -39,8 +39,6 @@ export default [
   },
   {
     name: 'share',
-    // wait for layout after react-navigation transitions
-    beforeDelay: 400,
     beforeStep: async () => store.dispatch(showBook('bookName')),
     component: ({ close, next, currentStep, totalSteps }) => (
       <Step {...props} position="bottomLeft">
@@ -51,9 +49,7 @@ export default [
 ];
 ```
 
-Each step you make needs a unique name. Then it has a few properties on it. You can set a delay before the step shows. This is needed in the case of a route transition happening. Otherwise our step position will render off screen.
-
-You can also run something before the step. In the case of our share one, this will go to the screen that has that thing on it first, before rendering.
+Each step you make needs a unique name. Then it has a few properties on it. You can run something before the step. In the case of our share one, this will go to the screen that has that thing on it first, before rendering.
 
 How your step component looks is up to you. This is the actual component rendered next to the circle.
 
@@ -99,6 +95,7 @@ The attach component takes one prop, the `name` of the step to attach to.
 The tour provider at the top of your app takes two props:
 
 - `steps`: the step array
+- `highlightComponent`: Custom component to wrap the highlighted part
 - `initialStep`: If you wish to immediately start the tour, pass the array index to show
 
 #### Steps api
@@ -107,9 +104,6 @@ The tour provider at the top of your app takes two props:
 {
    //unique name
     name: 'share',
-
-    //OPTIONAL: delay in ms before rendering the step to screen
-    beforeDelay: 400,
 
     //OPTIONAL: async function that is waited on before rendering the step
     beforeStep: async () => {}
