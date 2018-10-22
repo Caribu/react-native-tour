@@ -1,7 +1,6 @@
 import React from 'react';
-import Fade from './fade';
 import { Provider } from './context';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +21,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
-// Android layout does not work with the Fade component
-const Wrapper = Platform.OS === 'ios' ? Fade : React.Fragment;
 
 export default class OnboardingProvider extends React.Component {
   constructor({ steps, initialStep }) {
@@ -31,12 +28,12 @@ export default class OnboardingProvider extends React.Component {
     this.state = { positions: {}, step: initialStep, steps };
   }
   render() {
-    let { highlightComponent } = this.props;
-    let OverlayWrapper = highlightComponent || View;
+    const { highlightComponent, centerStyle } = this.props;
+    const OverlayWrapper = highlightComponent || View;
 
     const { step, steps, positions, hideOverlay } = this.state;
     let activeStep = steps[step] || {};
-    const { style, overlay } = positions[activeStep.name] || {};
+    const { style, overlay, center } = positions[activeStep.name] || {};
     // if the active step isnt on screen yet, we cant try to render anything
     if (!style || step === null) activeStep = {};
 
@@ -86,7 +83,7 @@ export default class OnboardingProvider extends React.Component {
           {(step || step === 0) && !hideOverlay ? (
             <View style={styles.overlay}>
               {activeStep.name ? (
-                <Wrapper>
+                <React.Fragment>
                   {overlay ? (
                     <OverlayWrapper style={[styles.highlight, style]}>
                       {overlay}
@@ -94,9 +91,9 @@ export default class OnboardingProvider extends React.Component {
                   ) : null}
                   <View
                     style={
-                      overlay
+                      overlay && !center
                         ? { top: style.top, left: style.left }
-                        : {
+                        : centerStyle || {
                             position: 'absolute',
                             top: 0,
                             left: 0,
@@ -114,7 +111,7 @@ export default class OnboardingProvider extends React.Component {
                       close: () => this.setState({ step: null }),
                     })}
                   </View>
-                </Wrapper>
+                </React.Fragment>
               ) : null}
             </View>
           ) : null}

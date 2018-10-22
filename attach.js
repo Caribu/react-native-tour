@@ -6,7 +6,7 @@ let timer;
 
 export default class Attach extends React.Component {
   render() {
-    const { name, children, style, viewStyle } = this.props;
+    const { center, name, children, style, viewStyle } = this.props;
     if (!name) return children;
 
     return (
@@ -44,6 +44,7 @@ export default class Attach extends React.Component {
                       const circleSize = height > width ? height : width;
 
                       onLayout(name, {
+                        center,
                         style: {
                           // make sure the highlight is always a circle
                           height: circleSize,
