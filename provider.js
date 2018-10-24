@@ -38,11 +38,13 @@ export default class OnboardingProvider extends React.Component {
     if (!style || step === null) activeStep = {};
 
     const next = async (data = {}) => {
-      const { hideOverlay, trigger } = data;
-      if (trigger) trigger();
+      const { hideOverlay } = data;
 
       if (step === null) return;
-
+      if (this.onNext) {
+        this.onNext();
+        this.onNext = null;
+      }
       const nextStep = steps[step + 1];
       if (nextStep && nextStep.beforeStep) await nextStep.beforeStep();
 
@@ -59,6 +61,7 @@ export default class OnboardingProvider extends React.Component {
           nextStep: steps[step + 1] || {},
           previousStep: steps[step - 1] || {},
           step: steps[step] ? steps[step] : {},
+          onNext: onNext => (this.onNext = onNext),
           start: async () => {
             if (step || step === 0) return;
 
