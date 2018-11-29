@@ -28,7 +28,7 @@ export default class OnboardingProvider extends React.Component {
     this.state = { positions: {}, step: initialStep, steps };
   }
   render() {
-    const { highlightComponent, centerStyle } = this.props;
+    const { highlightComponent, centerStyle, onCompletedStep } = this.props;
     const OverlayWrapper = highlightComponent || View;
 
     const { step, steps, positions, hideOverlay } = this.state;
@@ -45,6 +45,8 @@ export default class OnboardingProvider extends React.Component {
         this.onNext();
         this.onNext = null;
       }
+      if (onCompletedStep) onCompletedStep({ step: steps[step] });
+
       const nextStep = steps[step + 1];
       if (nextStep && nextStep.beforeStep) await nextStep.beforeStep();
 
