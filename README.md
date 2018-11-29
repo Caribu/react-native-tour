@@ -97,6 +97,7 @@ The tour provider at the top of your app takes two props:
 - `steps`: the step array
 - `highlightComponent`: Custom component to wrap the highlighted part
 - `initialStep`: If you wish to immediately start the tour, pass the array index to show
+- `onCompletedStep={({ step}) => step}`: Gives you the latest completed step, for analytics purposes
 
 #### Steps api
 
