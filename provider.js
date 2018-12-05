@@ -45,7 +45,8 @@ export default class OnboardingProvider extends React.Component {
         this.onNext();
         this.onNext = null;
       }
-      if (onCompletedStep) onCompletedStep({ step: steps[step] });
+      if (onCompletedStep && steps[step])
+        onCompletedStep({ step: steps[step] });
 
       const nextStep = steps[step + 1];
       if (nextStep && nextStep.beforeStep) await nextStep.beforeStep();
